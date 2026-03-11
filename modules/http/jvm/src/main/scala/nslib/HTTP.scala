@@ -124,6 +124,21 @@ object Http {
   def postJson(url: String, json: JsonValue, headers: Map[String, String] = Map.empty): Response =
     post(url, Json.stringify(json), headers + ("Content-Type" -> "application/json"))
 
+  /** POST a raw JSON string with `Content-Type: application/json` set automatically.
+    *
+    * Use this when you already have a serialised JSON string and don't want an extra parse +
+    * stringify round-trip.
+    *
+    * {{{
+    * Http.postJsonRaw("https://api.example.com/items", """{"name":"widget"}""")
+    * }}}
+    *
+    * @param body
+    *   a pre-serialised JSON string
+    */
+  def postJsonRaw(url: String, body: String, headers: Map[String, String] = Map.empty): Response =
+    post(url, body, headers + ("Content-Type" -> "application/json"))
+
   /** GET and immediately parse the response body as Json. Throws [[nslib.JsonParseException]] if
     * the body is not valid Json.
     */

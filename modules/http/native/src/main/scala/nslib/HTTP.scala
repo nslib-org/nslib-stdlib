@@ -33,6 +33,9 @@ object Http {
   def postJson(url: String, json: JsonValue, headers: Map[String, String] = Map.empty): Response =
     notSupported("postJson")
 
+  def postJsonRaw(url: String, body: String, headers: Map[String, String] = Map.empty): Response =
+    notSupported("postJsonRaw")
+
   def getJson(url: String, headers: Map[String, String] = Map.empty): JsonValue =
     notSupported("getJson")
 }
