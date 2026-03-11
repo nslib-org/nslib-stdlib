@@ -23,13 +23,13 @@ object JsonExample extends App {
 
   val json = Json.parse(text)
 
-  println(json("name").asString)           // Alice
-  println(json("age").asInt)               // 30
-  println(json("active").asBoolean)        // true
-  println(json("scores")(0).asInt)         // 95
+  println(json("name").asString)            // Alice
+  println(json("age").asInt)                // 30
+  println(json("active").asBoolean)         // true
+  println(json("scores")(0).asInt)          // 95
   println(json("address")("city").asString) // Tokyo
-  println(json("nickname").isNull)         // true
-  println(json.get("missing"))             // None
+  println(json("nickname").isNull)          // true
+  println(json.get("missing"))              // None
 
   val scores: List[Int] = json("scores").asArray.map(_.asInt)
   println(scores) // List(95, 87, 100)
@@ -37,18 +37,18 @@ object JsonExample extends App {
   // ── Build ──────────────────────────────────────────────────────────────
 
   val data = Json.obj(
-    "user"    -> Json.obj(
+    "user" -> Json.obj(
       "name"  -> Json.str("Bob"),
-      "roles" -> Json.arr(Json.str("admin"), Json.str("editor")),
+      "roles" -> Json.arr(Json.str("admin"), Json.str("editor"))
     ),
     "count"  -> Json.num(42),
     "active" -> Json.bool(true),
-    "note"   -> Json.`null`,
+    "note"   -> Json.`null`
   )
 
   // ── Serialise ─────────────────────────────────────────────────────────
 
-  println(Json.stringify(data))          // compact
+  println(Json.stringify(data))             // compact
   println(Json.stringify(data, indent = 2)) // pretty
 
   // ── Convert from Scala ─────────────────────────────────────────────────
@@ -58,7 +58,8 @@ object JsonExample extends App {
 
   // ── Pattern matching ───────────────────────────────────────────────────
 
-  import Json._
+  import Json.*
+
   json match {
     case Obj(fields) => println(s"Object with keys: ${fields.keys.mkString(", ")}")
     case _           => println("not an object")

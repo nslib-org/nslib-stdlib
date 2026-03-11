@@ -4,8 +4,8 @@ import nslib.http.{HttpException, Response}
 
 /** Http client — Scala Native stub.
   *
-  * Native Http support via sockets is planned.
-  * Track progress at https://github.com/nslib-org/nslib-stdlib
+  * Native Http support via sockets is planned. Track progress at
+  * https://github.com/nslib-org/nslib-stdlib
   */
 object Http {
 

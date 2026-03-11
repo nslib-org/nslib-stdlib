@@ -71,7 +71,7 @@ v.stringify(indent = 4)
 ### Pattern matching
 
 ```scala
-import Json._
+import Json.*
 value match {
   case Obj(fields) => /* Map[String, JsonValue] */
   case Arr(items)  => /* List[JsonValue] */

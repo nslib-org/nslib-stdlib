@@ -16,7 +16,7 @@ import nslib.{Json, JsonValue}
 final case class Response(
     status: Int,
     body: String,
-    headers: Map[String, String],
+    headers: Map[String, String]
 ) {
 
   /** True if the status code is 2xx. */

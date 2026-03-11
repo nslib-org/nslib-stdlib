@@ -60,7 +60,7 @@ Json.tryParse("bad json")         // None
 Json.tryParse("{}")               // Some(JsonObj(...))
 
 // Pattern matching
-import Json._
+import Json.*
 json match {
   case Obj(fields) => fields.keys.toList
   case Arr(items)  => items.map(_.asString)

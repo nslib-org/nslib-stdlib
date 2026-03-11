@@ -15,32 +15,34 @@ sealed abstract class JsonValue {
 
   /** Access an object field by key.  Throws if this is not an object or the key is absent. */
   def apply(key: String): JsonValue =
-    throw JsonAccessException(s"Cannot access field '$key' on ${typeName}")
+    throw JsonAccessException(s"Cannot access field '$key' on $typeName")
 
-  /** Access an array element by index.  Throws if this is not an array or the index is out of bounds. */
+  /** Access an array element by index. Throws if this is not an array or the index is out of
+    * bounds.
+    */
   def apply(idx: Int): JsonValue =
-    throw JsonAccessException(s"Cannot access index $idx on ${typeName}")
+    throw JsonAccessException(s"Cannot access index $idx on $typeName")
 
   /** Return value as String.  Throws if this is not a Json string. */
-  def asString: String = throw JsonAccessException(s"Expected string, got ${typeName}")
+  def asString: String = throw JsonAccessException(s"Expected string, got $typeName")
 
   /** Return value as Double.  Throws if this is not a Json number. */
-  def asDouble: Double = throw JsonAccessException(s"Expected number, got ${typeName}")
+  def asDouble: Double = throw JsonAccessException(s"Expected number, got $typeName")
 
   /** Return value as Int.  Throws if this is not a Json number. */
-  def asInt: Int = throw JsonAccessException(s"Expected number, got ${typeName}")
+  def asInt: Int = throw JsonAccessException(s"Expected number, got $typeName")
 
   /** Return value as Long.  Throws if this is not a Json number. */
-  def asLong: Long = throw JsonAccessException(s"Expected number, got ${typeName}")
+  def asLong: Long = throw JsonAccessException(s"Expected number, got $typeName")
 
   /** Return value as Boolean.  Throws if this is not a Json boolean. */
-  def asBoolean: Boolean = throw JsonAccessException(s"Expected boolean, got ${typeName}")
+  def asBoolean: Boolean = throw JsonAccessException(s"Expected boolean, got $typeName")
 
   /** Return value as a Scala List.  Throws if this is not a Json array. */
-  def asArray: List[JsonValue] = throw JsonAccessException(s"Expected array, got ${typeName}")
+  def asArray: List[JsonValue] = throw JsonAccessException(s"Expected array, got $typeName")
 
   /** Return value as a Scala Map.  Throws if this is not a Json object. */
-  def asMap: Map[String, JsonValue] = throw JsonAccessException(s"Expected object, got ${typeName}")
+  def asMap: Map[String, JsonValue] = throw JsonAccessException(s"Expected object, got $typeName")
 
   /** Safely look up a field in an object.  Returns None for non-objects or missing keys. */
   def get(key: String): Option[JsonValue] = None
@@ -62,8 +64,8 @@ sealed abstract class JsonValue {
 
 /** Json null. */
 case object JsonNull extends JsonValue {
-  override def isNull: Boolean                    = true
-  private[nslib] override def typeName: String    = "null"
+  override def isNull: Boolean                 = true
+  private[nslib] override def typeName: String = "null"
 }
 
 /** Json boolean. */
@@ -74,34 +76,36 @@ final case class JsonBool(value: Boolean) extends JsonValue {
 
 /** Json number. */
 final case class JsonNum(value: Double) extends JsonValue {
-  override def asDouble: Double              = value
-  override def asInt: Int                    = value.toInt
-  override def asLong: Long                  = value.toLong
+  override def asDouble: Double                = value
+  override def asInt: Int                      = value.toInt
+  override def asLong: Long                    = value.toLong
   private[nslib] override def typeName: String = "number"
 }
 
 /** Json string. */
 final case class JsonStr(value: String) extends JsonValue {
-  override def asString: String              = value
+  override def asString: String                = value
   private[nslib] override def typeName: String = "string"
 }
 
 /** Json array. */
 final case class JsonArr(values: List[JsonValue]) extends JsonValue {
+
   override def apply(idx: Int): JsonValue = {
     if (idx < 0 || idx >= values.size)
       throw JsonAccessException(s"Index $idx out of bounds (array size=${values.size})")
     values(idx)
   }
-  override def asArray: List[JsonValue]      = values
+  override def asArray: List[JsonValue]        = values
   private[nslib] override def typeName: String = "array"
 }
 
 /** Json object. */
 final case class JsonObj(fields: Map[String, JsonValue]) extends JsonValue {
+
   override def apply(key: String): JsonValue =
     fields.getOrElse(key, throw JsonAccessException(s"Key '$key' not found"))
-  override def asMap: Map[String, JsonValue]  = fields
+  override def asMap: Map[String, JsonValue]       = fields
   override def get(key: String): Option[JsonValue] = fields.get(key)
   private[nslib] override def typeName: String     = "object"
 }

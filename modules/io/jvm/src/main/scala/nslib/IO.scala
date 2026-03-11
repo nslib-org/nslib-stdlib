@@ -4,9 +4,9 @@ import nslib.io.IOException
 
 /** Simple file and path utilities.
   *
-  * All operations are synchronous.  Errors are thrown as [[nslib.io.IOException]].
+  * All operations are synchronous. Errors are thrown as [[nslib.io.IOException]].
   *
-  * == Quick start ==
+  * ==Quick start==
   * {{{
   * import nslib._
   *
@@ -127,8 +127,8 @@ object IO {
       throw IOException(s"Failed to delete: $path")
   }
 
-  /** Create a directory and all missing parent directories.
-    * Does nothing if the directory already exists.
+  /** Create a directory and all missing parent directories. Does nothing if the directory already
+    * exists.
     */
   def mkdirs(path: String): Unit = {
     val f = new java.io.File(path)

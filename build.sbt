@@ -1,8 +1,8 @@
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 
 // ─── Scala versions ────────────────────────────────────────────────────────────
-val scala213 = Versions.scala213
-val scala3   = Versions.scala3Lts
+val scala213               = Versions.scala213
+val scala3                 = Versions.scala3Lts
 val supportedScalaVersions = List(scala213, scala3)
 
 // ─── Project-wide settings ────────────────────────────────────────────────────
@@ -11,12 +11,14 @@ ThisBuild / organizationName := "nslib-org"
 ThisBuild / scalaVersion     := scala3
 ThisBuild / homepage         := Some(url("https://github.com/nslib-org/nslib-stdlib"))
 ThisBuild / licenses         := List("Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0"))
+
 ThisBuild / scmInfo := Some(
   ScmInfo(
     url("https://github.com/nslib-org/nslib-stdlib"),
     "scm:git@github.com:nslib-org/nslib-stdlib.git"
   )
 )
+
 ThisBuild / developers := List(
   Developer("nslib-org", "nslib contributors", "", url("https://github.com/nslib-org"))
 )
@@ -29,7 +31,8 @@ lazy val commonSettings = Seq(
     "-deprecation",
     "-unchecked",
     "-feature",
-    "-encoding", "utf8",
+    "-encoding",
+    "utf8"
   ),
   scalacOptions ++= {
     if (scalaVersion.value.startsWith("3."))
@@ -38,18 +41,18 @@ lazy val commonSettings = Seq(
       Seq("-Xlint:_,-missing-interpolator", "-Wunused:imports,privates,locals,implicits")
   },
   libraryDependencies += "org.scalameta" %%% "munit" % Versions.munit % Test,
-  testFrameworks += new TestFramework("munit.Framework"),
+  testFrameworks += new TestFramework("munit.Framework")
 )
 
 lazy val publishSettings = Seq(
-  publishMavenStyle          := true,
-  Test / publishArtifact     := false,
-  pomIncludeRepository       := { _ => false },
+  publishMavenStyle      := true,
+  Test / publishArtifact := false,
+  pomIncludeRepository   := { _ => false }
 )
 
 lazy val noPublish = Seq(
-  publish / skip    := true,
-  publishArtifact   := false,
+  publish / skip  := true,
+  publishArtifact := false
 )
 
 // ─── stdlib-json ──────────────────────────────────────────────────────────────
@@ -60,10 +63,10 @@ lazy val json = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(commonSettings, publishSettings)
   .settings(
     name        := "stdlib-json",
-    description := "Simple JSON parsing and serialisation for Scala",
+    description := "Simple JSON parsing and serialisation for Scala"
   )
   .jsSettings(
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
   )
 
 lazy val jsonJVM    = json.jvm
@@ -78,10 +81,10 @@ lazy val io = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(commonSettings, publishSettings)
   .settings(
     name        := "stdlib-io",
-    description := "Simple file I/O utilities for Scala",
+    description := "Simple file I/O utilities for Scala"
   )
   .jsSettings(
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
   )
 
 lazy val ioJVM    = io.jvm
@@ -96,11 +99,11 @@ lazy val http = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(commonSettings, publishSettings)
   .settings(
     name        := "stdlib-http",
-    description := "Simple HTTP client for Scala",
+    description := "Simple HTTP client for Scala"
   )
   .dependsOn(json)
   .jsSettings(
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
   )
 
 lazy val httpJVM    = http.jvm
@@ -115,11 +118,11 @@ lazy val all = crossProject(JVMPlatform, JSPlatform, NativePlatform)
   .settings(commonSettings, publishSettings)
   .settings(
     name        := "stdlib-all",
-    description := "All nslib stdlib modules in one dependency",
+    description := "All nslib stdlib modules in one dependency"
   )
   .dependsOn(json, io, http)
   .jsSettings(
-    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
   )
 
 lazy val allJVM    = all.jvm
@@ -127,23 +130,28 @@ lazy val allJS     = all.js
 lazy val allNative = all.native
 
 // ─── Placeholder modules (future work) ────────────────────────────────────────
-lazy val config = project.in(file("modules/config"))
+lazy val config = project
+  .in(file("modules/config"))
   .settings(commonSettings, noPublish)
   .settings(name := "stdlib-config-placeholder", publish / skip := true)
 
-lazy val db = project.in(file("modules/db"))
+lazy val db = project
+  .in(file("modules/db"))
   .settings(commonSettings, noPublish)
   .settings(name := "stdlib-db-placeholder", publish / skip := true)
 
-lazy val csv = project.in(file("modules/csv"))
+lazy val csv = project
+  .in(file("modules/csv"))
   .settings(commonSettings, noPublish)
   .settings(name := "stdlib-csv-placeholder", publish / skip := true)
 
-lazy val cli = project.in(file("modules/cli"))
+lazy val cli = project
+  .in(file("modules/cli"))
   .settings(commonSettings, noPublish)
   .settings(name := "stdlib-cli-placeholder", publish / skip := true)
 
-lazy val testkit = project.in(file("modules/testkit"))
+lazy val testkit = project
+  .in(file("modules/testkit"))
   .settings(commonSettings, noPublish)
   .settings(name := "stdlib-testkit-placeholder", publish / skip := true)
 
@@ -156,21 +164,29 @@ lazy val examples = project
     name         := "nslib-examples",
     scalaVersion := scala3,
     // Examples are runnable as scripts
-    run / fork := true,
+    run / fork := true
   )
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 lazy val root = project
   .in(file("."))
   .aggregate(
-    jsonJVM, jsonJS, jsonNative,
-    ioJVM,   ioJS,   ioNative,
-    httpJVM, httpJS, httpNative,
-    allJVM,  allJS,  allNative,
-    examples,
+    jsonJVM,
+    jsonJS,
+    jsonNative,
+    ioJVM,
+    ioJS,
+    ioNative,
+    httpJVM,
+    httpJS,
+    httpNative,
+    allJVM,
+    allJS,
+    allNative,
+    examples
   )
   .settings(noPublish)
   .settings(
     name               := "nslib-stdlib-root",
-    crossScalaVersions := Nil,
+    crossScalaVersions := Nil
   )

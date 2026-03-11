@@ -63,8 +63,8 @@ class HTTPTest extends FunSuite {
     assume(runIntegration, "Set INTEGRATION_TESTS=1 to run Http integration tests")
     val resp = Http.post(
       "https://httpbin.org/post",
-      body    = """{"hello":"world"}""",
-      headers = Map("Content-Type" -> "application/json"),
+      body = """{"hello":"world"}""",
+      headers = Map("Content-Type" -> "application/json")
     )
     assertEquals(resp.status, 200)
     assert(resp.body.contains("hello"))

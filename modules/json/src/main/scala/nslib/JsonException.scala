@@ -6,13 +6,13 @@ final class JsonParseException(message: String, cause: Throwable = null)
 
 object JsonParseException {
   def apply(message: String): JsonParseException = new JsonParseException(message)
+
   def apply(message: String, cause: Throwable): JsonParseException =
     new JsonParseException(message, cause)
 }
 
 /** Thrown when accessing a Json value in an incompatible way (e.g. `.asString` on a number). */
-final class JsonAccessException(message: String)
-    extends RuntimeException(message)
+final class JsonAccessException(message: String) extends RuntimeException(message)
 
 object JsonAccessException {
   def apply(message: String): JsonAccessException = new JsonAccessException(message)

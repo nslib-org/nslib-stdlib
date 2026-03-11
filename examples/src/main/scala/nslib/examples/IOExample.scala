@@ -28,10 +28,10 @@ object IOExample extends App {
 
   // ── Metadata ──────────────────────────────────────────────────────────
 
-  println(IO.exists(file))       // true
-  println(IO.isFile(file))       // true
-  println(IO.isDirectory(dir))   // true
-  println(IO.size(file))         // byte count
+  println(IO.exists(file))     // true
+  println(IO.isFile(file))     // true
+  println(IO.isDirectory(dir)) // true
+  println(IO.size(file))       // byte count
 
   // ── List files ────────────────────────────────────────────────────────
 
@@ -49,12 +49,12 @@ object IOExample extends App {
 
   val copy = IO.joinPath(dir, "hello-copy.txt")
   IO.copy(file, copy)
-  println(IO.readString(copy))  // Hello, nslib IO!
+  println(IO.readString(copy)) // Hello, nslib IO!
 
   val moved = IO.joinPath(dir, "hello-moved.txt")
   IO.move(copy, moved)
-  println(IO.exists(copy))   // false
-  println(IO.exists(moved))  // true
+  println(IO.exists(copy))  // false
+  println(IO.exists(moved)) // true
 
   // ── Cleanup ───────────────────────────────────────────────────────────
 

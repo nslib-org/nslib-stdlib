@@ -202,11 +202,10 @@ class IOTest extends FunSuite {
 
   test("tempFile creates a real temporary file path") {
     val path = IO.tempFile()
-    try {
+    try
       assert(!IO.exists(path) || IO.isFile(path))
-    } finally {
+    finally
       if (IO.exists(path)) IO.delete(path)
-    }
   }
 
   test("tempDir creates a real temporary directory") {

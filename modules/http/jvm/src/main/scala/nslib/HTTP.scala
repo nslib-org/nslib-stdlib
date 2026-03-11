@@ -9,12 +9,12 @@ import scala.jdk.CollectionConverters._
 
 /** Simple Http client.
   *
-  * All methods are synchronous.  Errors at the transport level throw [[nslib.http.HttpException]].
+  * All methods are synchronous. Errors at the transport level throw [[nslib.http.HttpException]].
   * Http error codes (4xx / 5xx) do **not** throw — check [[nslib.http.Response.isSuccess]].
   *
   * Requires Java 11+.
   *
-  * == Quick start ==
+  * ==Quick start==
   * {{{
   * import nslib._
   *
@@ -44,7 +44,8 @@ object Http {
   /** Default request timeout (60 s). */
   private val DefaultRequestTimeout: Duration = Duration.ofSeconds(60)
 
-  private val sharedClient: HttpClient = HttpClient.newBuilder()
+  private val sharedClient: HttpClient = HttpClient
+    .newBuilder()
     .connectTimeout(DefaultConnectTimeout)
     .followRedirects(HttpClient.Redirect.NORMAL)
     .build()
@@ -53,25 +54,31 @@ object Http {
 
   /** Http GET request.
     *
-    * @param url     the URL to fetch
-    * @param headers optional additional request headers
+    * @param url
+    *   the URL to fetch
+    * @param headers
+    *   optional additional request headers
     */
   def get(url: String, headers: Map[String, String] = Map.empty): Response =
     send(buildRequest(url, headers, HttpRequest.BodyPublishers.noBody()).GET().build())
 
   /** Http POST request.
     *
-    * @param url     the target URL
-    * @param body    request body string (default: empty)
-    * @param headers optional additional request headers
+    * @param url
+    *   the target URL
+    * @param body
+    *   request body string (default: empty)
+    * @param headers
+    *   optional additional request headers
     */
   def post(
       url: String,
       body: String = "",
-      headers: Map[String, String] = Map.empty,
+      headers: Map[String, String] = Map.empty
   ): Response = {
-    val pub = if (body.isEmpty) HttpRequest.BodyPublishers.noBody()
-              else HttpRequest.BodyPublishers.ofString(body)
+    val pub =
+      if (body.isEmpty) HttpRequest.BodyPublishers.noBody()
+      else HttpRequest.BodyPublishers.ofString(body)
     send(buildRequest(url, headers, pub).POST(pub).build())
   }
 
@@ -79,10 +86,11 @@ object Http {
   def put(
       url: String,
       body: String = "",
-      headers: Map[String, String] = Map.empty,
+      headers: Map[String, String] = Map.empty
   ): Response = {
-    val pub = if (body.isEmpty) HttpRequest.BodyPublishers.noBody()
-              else HttpRequest.BodyPublishers.ofString(body)
+    val pub =
+      if (body.isEmpty) HttpRequest.BodyPublishers.noBody()
+      else HttpRequest.BodyPublishers.ofString(body)
     send(buildRequest(url, headers, pub).PUT(pub).build())
   }
 
@@ -94,10 +102,11 @@ object Http {
   def patch(
       url: String,
       body: String = "",
-      headers: Map[String, String] = Map.empty,
+      headers: Map[String, String] = Map.empty
   ): Response = {
-    val pub = if (body.isEmpty) HttpRequest.BodyPublishers.noBody()
-              else HttpRequest.BodyPublishers.ofString(body)
+    val pub =
+      if (body.isEmpty) HttpRequest.BodyPublishers.noBody()
+      else HttpRequest.BodyPublishers.ofString(body)
     send(
       buildRequest(url, headers, pub)
         .method("PATCH", pub)
@@ -107,14 +116,16 @@ object Http {
 
   /** POST with `Content-Type: application/json` set automatically.
     *
-    * @param url    the target URL
-    * @param json   a [[JsonValue]] to serialise as the request body
+    * @param url
+    *   the target URL
+    * @param json
+    *   a [[JsonValue]] to serialise as the request body
     */
   def postJson(url: String, json: JsonValue, headers: Map[String, String] = Map.empty): Response =
     post(url, Json.stringify(json), headers + ("Content-Type" -> "application/json"))
 
-  /** GET and immediately parse the response body as Json.
-    * Throws [[nslib.JsonParseException]] if the body is not valid Json.
+  /** GET and immediately parse the response body as Json. Throws [[nslib.JsonParseException]] if
+    * the body is not valid Json.
     */
   def getJson(url: String, headers: Map[String, String] = Map.empty): JsonValue =
     get(url, headers).json
@@ -124,9 +135,10 @@ object Http {
   private def buildRequest(
       url: String,
       headers: Map[String, String],
-      body: HttpRequest.BodyPublisher,
+      body: HttpRequest.BodyPublisher
   ): HttpRequest.Builder = {
-    var builder = HttpRequest.newBuilder(URI.create(url))
+    var builder = HttpRequest
+      .newBuilder(URI.create(url))
       .timeout(DefaultRequestTimeout)
     for ((k, v) <- headers) builder = builder.header(k, v)
     builder

@@ -4,8 +4,8 @@ import nslib.io.IOException
 
 /** Simple file and path utilities (Scala Native implementation).
   *
-  * Uses java.io which is available in Scala Native 0.5+.
-  * API is identical to the JVM implementation.
+  * Uses java.io which is available in Scala Native 0.5+. API is identical to the JVM
+  * implementation.
   */
 object IO {
 

@@ -4,8 +4,8 @@ import nslib.http.{HttpException, Response}
 
 /** Http client — Scala.js stub.
   *
-  * Asynchronous browser/Node.js Http support is planned.
-  * Track progress at https://github.com/nslib-org/nslib-stdlib
+  * Asynchronous browser/Node.js Http support is planned. Track progress at
+  * https://github.com/nslib-org/nslib-stdlib
   */
 object Http {
 

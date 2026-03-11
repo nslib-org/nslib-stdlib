@@ -4,7 +4,7 @@ import nslib.json.internal.{JsonParser, JsonPrinter}
 
 /** Simple Json parsing and serialisation.
   *
-  * == Quick start ==
+  * ==Quick start==
   * {{{
   * import nslib._
   *
@@ -28,7 +28,7 @@ import nslib.json.internal.{JsonParser, JsonPrinter}
   * Json.stringify(data, indent=2) // pretty-printed
   *
   * // Pattern matching (advanced)
-  * import Json._
+  * import Json.*
   * data match {
   *   case Obj(fields) => fields.keys.toList
   *   case Arr(items)  => items
@@ -58,7 +58,8 @@ object Json {
 
   /** Serialise to pretty-printed Json.
     *
-    * @param indent number of spaces per indentation level
+    * @param indent
+    *   number of spaces per indentation level
     */
   def stringify(value: JsonValue, indent: Int): String = JsonPrinter.pretty(value, indent)
 
@@ -112,8 +113,7 @@ object Json {
 
   /** Convert a Scala value to a JsonValue.
     *
-    * Supports: String, Int, Long, Double, Boolean, null/None,
-    * Seq[_], Map[String,_], Option[_].
+    * Supports: String, Int, Long, Double, Boolean, null/None, Seq[_], Map[String,_], Option[_].
     */
   def from(value: Any): JsonValue = value match {
     case null         => JsonNull

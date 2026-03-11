@@ -43,14 +43,14 @@ private[nslib] final class JsonParser(input: String) {
     skipWs()
     if (pos >= input.length) throw JsonParseException("Unexpected end of input")
     input.charAt(pos) match {
-      case 'n'                           => parseLiteral("null", JsonNull)
-      case 't'                           => parseLiteral("true", JsonBool(true))
-      case 'f'                           => parseLiteral("false", JsonBool(false))
-      case '"'                           => parseString()
-      case '['                           => parseArray()
-      case '{'                           => parseObject()
-      case c if c == '-' || c.isDigit    => parseNumber()
-      case c                             =>
+      case 'n'                        => parseLiteral("null", JsonNull)
+      case 't'                        => parseLiteral("true", JsonBool(true))
+      case 'f'                        => parseLiteral("false", JsonBool(false))
+      case '"'                        => parseString()
+      case '['                        => parseArray()
+      case '{'                        => parseObject()
+      case c if c == '-' || c.isDigit => parseNumber()
+      case c =>
         throw JsonParseException(s"Unexpected character '$c' at position $pos")
     }
   }
@@ -73,21 +73,21 @@ private[nslib] final class JsonParser(input: String) {
   private def parseString(): JsonStr = {
     expect('"')
     val sb = new StringBuilder
-    while (pos < input.length && input.charAt(pos) != '"') {
+    while (pos < input.length && input.charAt(pos) != '"')
       if (input.charAt(pos) == '\\') {
         pos += 1
         if (pos >= input.length)
           throw JsonParseException("Unexpected end of input inside string escape")
         input.charAt(pos) match {
-          case '"'  => sb += '"';  pos += 1
+          case '"'  => sb += '"'; pos += 1
           case '\\' => sb += '\\'; pos += 1
-          case '/'  => sb += '/';  pos += 1
+          case '/'  => sb += '/'; pos += 1
           case 'b'  => sb += '\b'; pos += 1
           case 'f'  => sb += '\f'; pos += 1
           case 'n'  => sb += '\n'; pos += 1
           case 'r'  => sb += '\r'; pos += 1
           case 't'  => sb += '\t'; pos += 1
-          case 'u'  =>
+          case 'u' =>
             pos += 1
             if (pos + 4 > input.length)
               throw JsonParseException("Incomplete \\uXXXX escape")
@@ -105,7 +105,6 @@ private[nslib] final class JsonParser(input: String) {
         sb += input.charAt(pos)
         pos += 1
       }
-    }
     expect('"')
     JsonStr(sb.toString)
   }

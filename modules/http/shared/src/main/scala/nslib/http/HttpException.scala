@@ -8,6 +8,6 @@ final class HttpException(message: String, cause: Throwable = null)
     extends RuntimeException(message, cause)
 
 object HttpException {
-  def apply(message: String): HttpException = new HttpException(message)
+  def apply(message: String): HttpException                   = new HttpException(message)
   def apply(message: String, cause: Throwable): HttpException = new HttpException(message, cause)
 }

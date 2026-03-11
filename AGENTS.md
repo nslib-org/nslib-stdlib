@@ -64,6 +64,18 @@ Do **not** add:
 
 ---
 
+## Local setup
+
+After cloning, enable the pre-commit hook:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+This runs `sbt scalafmtCheckAll` before every commit and prevents CI format failures.
+
+---
+
 ## Coding conventions
 
 - All source files use UTF-8 with Unix line endings.
