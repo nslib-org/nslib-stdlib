@@ -1,4 +1,4 @@
-name: Claude Maintenance
+name: Claude Code
 
 on:
   issue_comment:
@@ -14,24 +14,23 @@ on:
   schedule:
     - cron: "0 9 * * 1" # every Monday 09:00 UTC
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
-  id-token: write
-
 jobs:
-  # ── @claude mention in comments / issues ──────────────────────────────────
-  claude-mention:
-    name: Claude (@claude mention)
+  # ── @claude mention ───────────────────────────────────────────────────────
+  claude:
     if: |
       (github.event_name == 'issue_comment'              && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review'        && contains(github.event.review.body,   '@claude')) ||
-      (github.event_name == 'issues' && github.event.action == 'assigned' && contains(github.event.issue.body, '@claude'))
+      (github.event_name == 'issues'                     && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - uses: actions/setup-java@v4
@@ -44,23 +43,21 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_args: |
-            --append-system-prompt "Read AGENTS.md before making any changes. Verify with: sbt compile. Run tests with: sbt jsonJVM/test ioJVM/test httpJVM/test. Follow all conventions in AGENTS.md."
+            --append-system-prompt "Read AGENTS.md before making any changes. Verify with: sbt compile. Run tests with: sbt jsonJVM/test ioJVM/test httpJVM/test."
 
   # ── Auto-triage new issues ────────────────────────────────────────────────
   claude-triage:
-    name: Claude (issue triage)
     if: github.event_name == 'issues' && github.event.action == 'opened'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+      actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "21"
-          cache: sbt
-      - uses: sbt/setup-sbt@v1
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -69,16 +66,20 @@ jobs:
             1. Read AGENTS.md — especially "Issue triage rules" and "Core philosophy".
             2. Apply the appropriate label(s): bug, enhancement, documentation, platform, good first issue, breaking.
             3. Post a brief comment: acknowledge the report, confirm whether it is in scope, and suggest next steps.
-            4. If the feature request violates the "no FP jargon / no effect systems" rule or is out of scope,
+            4. If the request violates the "no FP jargon / no effect systems" rule or is otherwise out of scope,
                politely close it with an explanation referencing AGENTS.md.
 
   # ── Auto-review new PRs ───────────────────────────────────────────────────
   claude-review:
-    name: Claude (PR review)
     if: github.event_name == 'pull_request' && github.event.action == 'opened'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+      actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - uses: actions/setup-java@v4
@@ -98,13 +99,17 @@ jobs:
             3. Verify it compiles: sbt compile
             4. Post a review comment summarising findings. Do NOT approve or request-changes — comment only.
 
-  # ── Weekly dependency / housekeeping ─────────────────────────────────────
+  # ── Weekly dependency check ───────────────────────────────────────────────
   claude-maintenance:
-    name: Claude (weekly maintenance)
     if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+      actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 1
       - uses: actions/setup-java@v4
@@ -122,7 +127,6 @@ jobs:
             2. Check project/Versions.scala — look up the latest stable releases of:
                munit, sbt-scalajs, sbt-scala-native, and the Scala cross-compilation targets.
                Also check project/plugins.sbt for outdated plugin versions.
-            3. If any dependency is outdated, create a single PR that bumps all of them,
-               with title "chore: bump dependencies (weekly)".
-               Verify the build still compiles: sbt compile
+            3. If any dependency is outdated, create a single PR with title "chore: bump dependencies (weekly)".
+               Verify the build still compiles after bumping: sbt compile
             4. If everything is up to date, do nothing.
