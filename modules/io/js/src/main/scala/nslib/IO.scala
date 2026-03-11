@@ -6,7 +6,7 @@ package nslib
   * The JVM platform provides the complete implementation.
   *
   * To contribute a Node.js implementation, open an issue at
-  * https://github.com/nslib/stdlib
+  * https://github.com/nslib-org/nslib-stdlib
   */
 object IO {
 
@@ -14,7 +14,7 @@ object IO {
     throw new UnsupportedOperationException(
       s"IO.$op is not yet supported on Scala.js. " +
         "Please use the JVM platform, or contribute a Node.js implementation: " +
-        "https://github.com/nslib/stdlib"
+        "https://github.com/nslib-org/nslib-stdlib"
     )
 
   def readString(path: String): String                         = notSupported("readString")

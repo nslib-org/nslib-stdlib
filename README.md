@@ -9,7 +9,7 @@ A batteries-included standard-library toolkit for everyday Scala programming.
 ## One dependency to rule them all
 
 ```scala
-libraryDependencies += "com.github.nslib" %% "stdlib-all" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-all" % "0.1.0"
 ```
 
 ```scala
@@ -161,14 +161,14 @@ notFound.status       // 404
 
 ```scala
 // Pick only what you need
-libraryDependencies += "com.github.nslib" %% "stdlib-json" % "0.1.0"
-libraryDependencies += "com.github.nslib" %% "stdlib-io"   % "0.1.0"
-libraryDependencies += "com.github.nslib" %% "stdlib-http" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-json" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-io"   % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-http" % "0.1.0"
 ```
 
 For Scala.js or Scala Native, use `%%%`:
 ```scala
-libraryDependencies += "com.github.nslib" %%% "stdlib-json" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %%% "stdlib-json" % "0.1.0"
 ```
 
 ---

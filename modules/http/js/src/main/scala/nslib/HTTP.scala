@@ -5,14 +5,14 @@ import nslib.http.{HttpException, Response}
 /** HTTP client — Scala.js stub.
   *
   * Asynchronous browser/Node.js HTTP support is planned.
-  * Track progress at https://github.com/nslib/stdlib
+  * Track progress at https://github.com/nslib-org/nslib-stdlib
   */
 object HTTP {
 
   private def notSupported(op: String): Nothing =
     throw new UnsupportedOperationException(
       s"HTTP.$op is not yet supported on Scala.js. " +
-        "Track progress: https://github.com/nslib/stdlib"
+        "Track progress: https://github.com/nslib-org/nslib-stdlib"
     )
 
   def get(url: String, headers: Map[String, String] = Map.empty): Response =

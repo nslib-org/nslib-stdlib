@@ -6,19 +6,19 @@ val scala3   = Versions.scala3Lts
 val supportedScalaVersions = List(scala213, scala3)
 
 // ─── Project-wide settings ────────────────────────────────────────────────────
-ThisBuild / organization     := "com.github.nslib"
-ThisBuild / organizationName := "nslib"
+ThisBuild / organization     := "io.github.nslib-org"
+ThisBuild / organizationName := "nslib-org"
 ThisBuild / scalaVersion     := scala3
-ThisBuild / homepage         := Some(url("https://github.com/nslib/stdlib"))
+ThisBuild / homepage         := Some(url("https://github.com/nslib-org/nslib-stdlib"))
 ThisBuild / licenses         := List("Apache-2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0"))
 ThisBuild / scmInfo := Some(
   ScmInfo(
-    url("https://github.com/nslib/stdlib"),
-    "scm:git@github.com:nslib/stdlib.git"
+    url("https://github.com/nslib-org/nslib-stdlib"),
+    "scm:git@github.com:nslib-org/nslib-stdlib.git"
   )
 )
 ThisBuild / developers := List(
-  Developer("nslib", "nslib contributors", "", url("https://github.com/nslib"))
+  Developer("nslib-org", "nslib contributors", "", url("https://github.com/nslib-org"))
 )
 ThisBuild / versionScheme := Some("early-semver")
 

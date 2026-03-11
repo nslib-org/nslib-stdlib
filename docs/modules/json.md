@@ -6,7 +6,7 @@ No external dependencies.  Works on JVM, Scala.js, and Scala Native.
 ## Quick start
 
 ```scala
-libraryDependencies += "com.github.nslib" %% "stdlib-json" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-json" % "0.1.0"
 ```
 
 ```scala

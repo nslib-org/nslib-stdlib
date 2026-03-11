@@ -6,7 +6,7 @@ JVM only (Java 11+ `java.net.http`).  Does not throw on 4xx/5xx status codes.
 ## Quick start
 
 ```scala
-libraryDependencies += "com.github.nslib" %% "stdlib-http" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-http" % "0.1.0"
 ```
 
 ```scala

@@ -4,7 +4,7 @@ package nslib
   *
   * Add a single dependency and get everything:
   * {{{
-  * libraryDependencies += "com.github.nslib" %% "stdlib-all" % "<version>"
+  * libraryDependencies += "io.github.nslib-org" %% "stdlib-all" % "<version>"
   * }}}
   *
   * Then import once:

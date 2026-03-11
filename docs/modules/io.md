@@ -6,7 +6,7 @@ JVM and Scala Native (via `java.io`).
 ## Quick start
 
 ```scala
-libraryDependencies += "com.github.nslib" %% "stdlib-io" % "0.1.0"
+libraryDependencies += "io.github.nslib-org" %% "stdlib-io" % "0.1.0"
 ```
 
 ```scala
