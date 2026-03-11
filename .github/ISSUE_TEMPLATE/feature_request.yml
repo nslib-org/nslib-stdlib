@@ -1,0 +1,52 @@
+name: Feature Request
+description: Suggest a new feature or API addition
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature!  Please keep the nslib philosophy in mind:
+        the API should stay simple and obvious — a user should understand it from a single example.
+
+  - type: input
+    id: module
+    attributes:
+      label: Target module
+      placeholder: "e.g. stdlib-json (or 'new module')"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: What would you like to add?
+      description: One or two sentences.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example usage
+      description: Show how the API would look in practice.
+      render: scala
+      placeholder: |
+        import nslib._
+        // Proposed API
+        CSV.parse("a,b,c\n1,2,3")
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this useful?  What problem does it solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What else did you consider?
