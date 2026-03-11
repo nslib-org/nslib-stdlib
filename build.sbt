@@ -124,7 +124,7 @@ lazy val all = crossProject(JVMPlatform, JSPlatform, NativePlatform)
     name        := "stdlib-all",
     description := "All nslib stdlib modules in one dependency"
   )
-  .dependsOn(json, io, http)
+  .dependsOn(json, io, http, path)
   .jsSettings(
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
   )
@@ -132,6 +132,24 @@ lazy val all = crossProject(JVMPlatform, JSPlatform, NativePlatform)
 lazy val allJVM    = all.jvm
 lazy val allJS     = all.js
 lazy val allNative = all.native
+
+// ─── stdlib-path ──────────────────────────────────────────────────────────────
+// Immutable path type with Python-style / composition: full JVM + Native, stub on JS
+lazy val path = crossProject(JVMPlatform, JSPlatform, NativePlatform)
+  .crossType(CrossType.Full)
+  .in(file("modules/path"))
+  .settings(commonSettings, publishSettings)
+  .settings(
+    name        := "stdlib-path",
+    description := "Immutable path type with / composition for Scala"
+  )
+  .jsSettings(
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }
+  )
+
+lazy val pathJVM    = path.jvm
+lazy val pathJS     = path.js
+lazy val pathNative = path.native
 
 // ─── Placeholder modules (future work) ────────────────────────────────────────
 lazy val config = project
@@ -184,6 +202,9 @@ lazy val root = project
     httpJVM,
     httpJS,
     httpNative,
+    pathJVM,
+    pathJS,
+    pathNative,
     allJVM,
     allJS,
     allNative,
