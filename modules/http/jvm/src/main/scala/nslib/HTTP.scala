@@ -7,10 +7,10 @@ import java.net.http.{HttpClient, HttpRequest, HttpResponse => JHttpResponse}
 import java.time.Duration
 import scala.jdk.CollectionConverters._
 
-/** Simple HTTP client.
+/** Simple Http client.
   *
   * All methods are synchronous.  Errors at the transport level throw [[nslib.http.HttpException]].
-  * HTTP error codes (4xx / 5xx) do **not** throw — check [[nslib.http.Response.isSuccess]].
+  * Http error codes (4xx / 5xx) do **not** throw — check [[nslib.http.Response.isSuccess]].
   *
   * Requires Java 11+.
   *
@@ -19,24 +19,24 @@ import scala.jdk.CollectionConverters._
   * import nslib._
   *
   * // GET
-  * val resp = HTTP.get("https://httpbin.org/get")
+  * val resp = Http.get("https://httpbin.org/get")
   * println(resp.status)   // 200
   * println(resp.body)     // response body
   *
-  * // POST JSON
-  * val data = JSON.stringify(JSON.obj("name" -> JSON.str("Alice")))
-  * val resp2 = HTTP.post(
+  * // POST Json
+  * val data = Json.stringify(Json.obj("name" -> Json.str("Alice")))
+  * val resp2 = Http.post(
   *   "https://httpbin.org/post",
   *   body    = data,
   *   headers = Map("Content-Type" -> "application/json"),
   * )
   *
-  * // Parse response as JSON
-  * val json = HTTP.get("https://httpbin.org/json").json
+  * // Parse response as Json
+  * val json = Http.get("https://httpbin.org/json").json
   * json("slideshow")("title").asString
   * }}}
   */
-object HTTP {
+object Http {
 
   /** Default connect timeout (30 s). Override with [[withTimeout]]. */
   private val DefaultConnectTimeout: Duration = Duration.ofSeconds(30)
@@ -51,7 +51,7 @@ object HTTP {
 
   // ── Public API ────────────────────────────────────────────────────────────
 
-  /** HTTP GET request.
+  /** Http GET request.
     *
     * @param url     the URL to fetch
     * @param headers optional additional request headers
@@ -59,7 +59,7 @@ object HTTP {
   def get(url: String, headers: Map[String, String] = Map.empty): Response =
     send(buildRequest(url, headers, HttpRequest.BodyPublishers.noBody()).GET().build())
 
-  /** HTTP POST request.
+  /** Http POST request.
     *
     * @param url     the target URL
     * @param body    request body string (default: empty)
@@ -75,7 +75,7 @@ object HTTP {
     send(buildRequest(url, headers, pub).POST(pub).build())
   }
 
-  /** HTTP PUT request. */
+  /** Http PUT request. */
   def put(
       url: String,
       body: String = "",
@@ -86,11 +86,11 @@ object HTTP {
     send(buildRequest(url, headers, pub).PUT(pub).build())
   }
 
-  /** HTTP DELETE request. */
+  /** Http DELETE request. */
   def delete(url: String, headers: Map[String, String] = Map.empty): Response =
     send(buildRequest(url, headers, HttpRequest.BodyPublishers.noBody()).DELETE().build())
 
-  /** HTTP PATCH request. */
+  /** Http PATCH request. */
   def patch(
       url: String,
       body: String = "",
@@ -111,10 +111,10 @@ object HTTP {
     * @param json   a [[JsonValue]] to serialise as the request body
     */
   def postJson(url: String, json: JsonValue, headers: Map[String, String] = Map.empty): Response =
-    post(url, JSON.stringify(json), headers + ("Content-Type" -> "application/json"))
+    post(url, Json.stringify(json), headers + ("Content-Type" -> "application/json"))
 
-  /** GET and immediately parse the response body as JSON.
-    * Throws [[nslib.JsonParseException]] if the body is not valid JSON.
+  /** GET and immediately parse the response body as Json.
+    * Throws [[nslib.JsonParseException]] if the body is not valid Json.
     */
   def getJson(url: String, headers: Map[String, String] = Map.empty): JsonValue =
     get(url, headers).json
@@ -137,10 +137,10 @@ object HTTP {
       try sharedClient.send(request, JHttpResponse.BodyHandlers.ofString())
       catch {
         case e: java.io.IOException =>
-          throw HttpException(s"HTTP request failed: ${e.getMessage}", e)
+          throw HttpException(s"Http request failed: ${e.getMessage}", e)
         case e: InterruptedException =>
           Thread.currentThread().interrupt()
-          throw HttpException("HTTP request interrupted", e)
+          throw HttpException("Http request interrupted", e)
       }
     val headers: Map[String, String] = jResp
       .headers()

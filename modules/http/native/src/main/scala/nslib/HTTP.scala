@@ -2,16 +2,16 @@ package nslib
 
 import nslib.http.{HttpException, Response}
 
-/** HTTP client — Scala Native stub.
+/** Http client — Scala Native stub.
   *
-  * Native HTTP support via sockets is planned.
+  * Native Http support via sockets is planned.
   * Track progress at https://github.com/nslib-org/nslib-stdlib
   */
-object HTTP {
+object Http {
 
   private def notSupported(op: String): Nothing =
     throw new UnsupportedOperationException(
-      s"HTTP.$op is not yet supported on Scala Native. " +
+      s"Http.$op is not yet supported on Scala Native. " +
         "Track progress: https://github.com/nslib-org/nslib-stdlib"
     )
 

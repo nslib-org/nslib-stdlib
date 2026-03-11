@@ -3,7 +3,7 @@ package nslib.json.internal
 import nslib._
 import scala.collection.mutable
 
-/** Recursive-descent JSON parser.  Not thread-safe; create one per parse call. */
+/** Recursive-descent Json parser.  Not thread-safe; create one per parse call. */
 private[nslib] final class JsonParser(input: String) {
   private var pos: Int = 0
 

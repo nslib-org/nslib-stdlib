@@ -27,7 +27,7 @@ class HTTPTest extends FunSuite {
     assert(!Response(200, "", Map.empty).isError)
   }
 
-  test("Response.json parses body as JSON") {
+  test("Response.json parses body as Json") {
     val resp = Response(200, """{"ok":true}""", Map.empty)
     assertEquals(resp.json("ok").asBoolean, true)
   }
@@ -52,16 +52,16 @@ class HTTPTest extends FunSuite {
 
   private val runIntegration = sys.env.contains("INTEGRATION_TESTS")
 
-  test("HTTP.get returns 200 from httpbin") {
-    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run HTTP integration tests")
-    val resp = HTTP.get("https://httpbin.org/get")
+  test("Http.get returns 200 from httpbin") {
+    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run Http integration tests")
+    val resp = Http.get("https://httpbin.org/get")
     assertEquals(resp.status, 200)
     assert(resp.body.nonEmpty)
   }
 
-  test("HTTP.post sends body") {
-    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run HTTP integration tests")
-    val resp = HTTP.post(
+  test("Http.post sends body") {
+    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run Http integration tests")
+    val resp = Http.post(
       "https://httpbin.org/post",
       body    = """{"hello":"world"}""",
       headers = Map("Content-Type" -> "application/json"),
@@ -70,21 +70,21 @@ class HTTPTest extends FunSuite {
     assert(resp.body.contains("hello"))
   }
 
-  test("HTTP.getJson parses response directly") {
-    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run HTTP integration tests")
-    val json = HTTP.getJson("https://httpbin.org/json")
+  test("Http.getJson parses response directly") {
+    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run Http integration tests")
+    val json = Http.getJson("https://httpbin.org/json")
     assert(json.get("slideshow").isDefined)
   }
 
-  test("HTTP.get follows redirects") {
-    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run HTTP integration tests")
-    val resp = HTTP.get("https://httpbin.org/redirect/1")
+  test("Http.get follows redirects") {
+    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run Http integration tests")
+    val resp = Http.get("https://httpbin.org/redirect/1")
     assertEquals(resp.status, 200)
   }
 
-  test("HTTP 404 does not throw") {
-    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run HTTP integration tests")
-    val resp = HTTP.get("https://httpbin.org/status/404")
+  test("Http 404 does not throw") {
+    assume(runIntegration, "Set INTEGRATION_TESTS=1 to run Http integration tests")
+    val resp = Http.get("https://httpbin.org/status/404")
     assertEquals(resp.status, 404)
     assert(!resp.isSuccess)
     assert(resp.isError)

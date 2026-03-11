@@ -12,7 +12,7 @@ libraryDependencies += "io.github.nslib-org" %% "stdlib-http" % "0.1.0"
 ```scala
 import nslib._
 
-val resp = HTTP.get("https://httpbin.org/get")
+val resp = Http.get("https://httpbin.org/get")
 println(resp.status)    // 200
 println(resp.body)      // JSON string
 ```
@@ -22,15 +22,15 @@ println(resp.body)      // JSON string
 ### Methods
 
 ```scala
-HTTP.get(url, headers = Map.empty): Response
-HTTP.post(url, body = "", headers = Map.empty): Response
-HTTP.put(url, body = "", headers = Map.empty): Response
-HTTP.delete(url, headers = Map.empty): Response
-HTTP.patch(url, body = "", headers = Map.empty): Response
+Http.get(url, headers = Map.empty): Response
+Http.post(url, body = "", headers = Map.empty): Response
+Http.put(url, body = "", headers = Map.empty): Response
+Http.delete(url, headers = Map.empty): Response
+Http.patch(url, body = "", headers = Map.empty): Response
 
 // Convenience helpers
-HTTP.postJson(url, jsonValue, headers = Map.empty): Response
-HTTP.getJson(url, headers = Map.empty): JsonValue
+Http.postJson(url, jsonValue, headers = Map.empty): Response
+Http.getJson(url, headers = Map.empty): JsonValue
 ```
 
 ### Response
@@ -51,18 +51,18 @@ resp.contentType: String                  // content-type header or ""
 ### GET with JSON response
 
 ```scala
-val json = HTTP.getJson("https://api.github.com/repos/scala/scala")
+val json = Http.getJson("https://api.github.com/repos/scala/scala")
 println(json("stargazers_count").asInt)
 ```
 
 ### POST JSON
 
 ```scala
-val payload = JSON.obj(
-  "title" -> JSON.str("Bug fix"),
-  "body"  -> JSON.str("Fixed the thing"),
+val payload = Json.obj(
+  "title" -> Json.str("Bug fix"),
+  "body"  -> Json.str("Fixed the thing"),
 )
-val resp = HTTP.postJson(
+val resp = Http.postJson(
   "https://api.github.com/repos/owner/repo/issues",
   payload,
   headers = Map("Authorization" -> "Bearer token"),
@@ -73,7 +73,7 @@ println(resp.status)  // 201
 ### Check for errors without exceptions
 
 ```scala
-val resp = HTTP.get("https://api.example.com/item/999")
+val resp = Http.get("https://api.example.com/item/999")
 if (resp.isError) {
   println(s"Error ${resp.status}: ${resp.body}")
 } else {
@@ -88,7 +88,7 @@ Transport-level errors (no network, DNS failure, timeout) throw `nslib.http.Http
 HTTP error codes (4xx, 5xx) **do not throw** — check `resp.isSuccess` / `resp.isError`.
 
 ```scala
-try HTTP.get("https://does-not-exist.invalid")
+try Http.get("https://does-not-exist.invalid")
 catch { case e: nslib.http.HttpException => println(e.getMessage) }
 ```
 

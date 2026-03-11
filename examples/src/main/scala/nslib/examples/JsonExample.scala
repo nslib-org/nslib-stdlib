@@ -21,7 +21,7 @@ object JsonExample extends App {
     }
   """
 
-  val json = JSON.parse(text)
+  val json = Json.parse(text)
 
   println(json("name").asString)           // Alice
   println(json("age").asInt)               // 30
@@ -36,29 +36,29 @@ object JsonExample extends App {
 
   // ── Build ──────────────────────────────────────────────────────────────
 
-  val data = JSON.obj(
-    "user"    -> JSON.obj(
-      "name"  -> JSON.str("Bob"),
-      "roles" -> JSON.arr(JSON.str("admin"), JSON.str("editor")),
+  val data = Json.obj(
+    "user"    -> Json.obj(
+      "name"  -> Json.str("Bob"),
+      "roles" -> Json.arr(Json.str("admin"), Json.str("editor")),
     ),
-    "count"  -> JSON.num(42),
-    "active" -> JSON.bool(true),
-    "note"   -> JSON.`null`,
+    "count"  -> Json.num(42),
+    "active" -> Json.bool(true),
+    "note"   -> Json.`null`,
   )
 
   // ── Serialise ─────────────────────────────────────────────────────────
 
-  println(JSON.stringify(data))          // compact
-  println(JSON.stringify(data, indent = 2)) // pretty
+  println(Json.stringify(data))          // compact
+  println(Json.stringify(data, indent = 2)) // pretty
 
   // ── Convert from Scala ─────────────────────────────────────────────────
 
-  val fromMap = JSON.from(Map("x" -> 1, "y" -> 2))
-  println(JSON.stringify(fromMap)) // {"x":1,"y":2}
+  val fromMap = Json.from(Map("x" -> 1, "y" -> 2))
+  println(Json.stringify(fromMap)) // {"x":1,"y":2}
 
   // ── Pattern matching ───────────────────────────────────────────────────
 
-  import JSON._
+  import Json._
   json match {
     case Obj(fields) => println(s"Object with keys: ${fields.keys.mkString(", ")}")
     case _           => println("not an object")

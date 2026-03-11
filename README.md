@@ -38,29 +38,29 @@ cross-compiled for **JVM**, **Scala.js**, and **Scala Native**.
 import nslib._
 
 // Parse
-val json = JSON.parse("""{"name":"Alice","scores":[95,87,100]}""")
+val json = Json.parse("""{"name":"Alice","scores":[95,87,100]}""")
 json("name").asString          // "Alice"
 json("scores")(0).asInt        // 95
 json.get("missing")            // None
 
 // Build
-val data = JSON.obj(
-  "user"   -> JSON.str("Alice"),
-  "active" -> JSON.bool(true),
-  "count"  -> JSON.num(42),
-  "tags"   -> JSON.arr(JSON.str("admin"), JSON.str("user")),
+val data = Json.obj(
+  "user"   -> Json.str("Alice"),
+  "active" -> Json.bool(true),
+  "count"  -> Json.num(42),
+  "tags"   -> Json.arr(Json.str("admin"), Json.str("user")),
 )
 
 // Serialise
-JSON.stringify(data)              // compact
-JSON.stringify(data, indent = 2)  // pretty-printed
+Json.stringify(data)              // compact
+Json.stringify(data, indent = 2)  // pretty-printed
 
 // Safe parse
-JSON.tryParse("bad json")         // None
-JSON.tryParse("{}")               // Some(JsonObj(...))
+Json.tryParse("bad json")         // None
+Json.tryParse("{}")               // Some(JsonObj(...))
 
 // Pattern matching
-import JSON._
+import Json._
 json match {
   case Obj(fields) => fields.keys.toList
   case Arr(items)  => items.map(_.asString)
@@ -123,31 +123,31 @@ IO.joinPath("a", "b", "c")        // "a/b/c" (or a\b\c on Windows)
 import nslib._
 
 // GET
-val resp = HTTP.get("https://httpbin.org/get")
+val resp = Http.get("https://httpbin.org/get")
 resp.status       // 200
 resp.body         // response body string
 resp.isSuccess    // true
 resp.isError      // false
 
 // POST
-HTTP.post(
+Http.post(
   "https://api.example.com/items",
   body    = """{"name":"widget"}""",
   headers = Map("Content-Type" -> "application/json"),
 )
 
 // GET + JSON in one step
-val json = HTTP.getJson("https://httpbin.org/json")
+val json = Http.getJson("https://httpbin.org/json")
 json("slideshow")("title").asString
 
 // POST a JsonValue directly
-HTTP.postJson(
+Http.postJson(
   "https://api.example.com/items",
-  JSON.obj("name" -> JSON.str("widget"), "qty" -> JSON.num(10)),
+  Json.obj("name" -> Json.str("widget"), "qty" -> Json.num(10)),
 )
 
 // Error codes don't throw — check the status
-val notFound = HTTP.get("https://httpbin.org/status/404")
+val notFound = Http.get("https://httpbin.org/status/404")
 notFound.isSuccess    // false
 notFound.isError      // true
 notFound.status       // 404

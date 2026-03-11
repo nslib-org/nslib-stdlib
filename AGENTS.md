@@ -57,7 +57,7 @@ Do **not** add:
 |--------|-----------|---------|
 | Package | `nslib` (top-level public) | `nslib.JSON` |
 | Internal package | `nslib.<module>.internal` | `nslib.json.internal` |
-| Public objects | UpperCamelCase nouns | `JSON`, `IO`, `HTTP` |
+| Public objects | UpperCamelCase nouns | `Json`, `IO`, `Http` |
 | Public methods | lowerCamelCase verbs | `parse`, `readString`, `postJson` |
 | Exception types | `<Module>Exception` | `JsonParseException`, `HttpException` |
 | Test classes | `<Subject>Test` | `JSONTest`, `IOTest` |

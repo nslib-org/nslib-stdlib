@@ -2,16 +2,16 @@ package nslib
 
 import nslib.http.{HttpException, Response}
 
-/** HTTP client — Scala.js stub.
+/** Http client — Scala.js stub.
   *
-  * Asynchronous browser/Node.js HTTP support is planned.
+  * Asynchronous browser/Node.js Http support is planned.
   * Track progress at https://github.com/nslib-org/nslib-stdlib
   */
-object HTTP {
+object Http {
 
   private def notSupported(op: String): Nothing =
     throw new UnsupportedOperationException(
-      s"HTTP.$op is not yet supported on Scala.js. " +
+      s"Http.$op is not yet supported on Scala.js. " +
         "Track progress: https://github.com/nslib-org/nslib-stdlib"
     )
 

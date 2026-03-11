@@ -1,14 +1,14 @@
 package nslib.http
 
-import nslib.{JSON, JsonValue}
+import nslib.{Json, JsonValue}
 
-/** An HTTP response.
+/** An Http response.
   *
   * {{{
-  * val resp = HTTP.get("https://httpbin.org/get")
+  * val resp = Http.get("https://httpbin.org/get")
   * resp.status       // 200
   * resp.body         // response body as String
-  * resp.json         // parse body as JSON
+  * resp.json         // parse body as Json
   * resp.isSuccess    // true if status 2xx
   * resp.header("content-type")  // option of first matching header
   * }}}
@@ -25,8 +25,8 @@ final case class Response(
   /** True if the status code is 4xx or 5xx. */
   def isError: Boolean = status >= 400
 
-  /** Parse the response body as JSON.  Throws [[nslib.JsonParseException]] on invalid JSON. */
-  def json: JsonValue = JSON.parse(body)
+  /** Parse the response body as Json.  Throws [[nslib.JsonParseException]] on invalid Json. */
+  def json: JsonValue = Json.parse(body)
 
   /** First value of the given header name (case-insensitive lookup). */
   def header(name: String): Option[String] = {

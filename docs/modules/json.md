@@ -12,7 +12,7 @@ libraryDependencies += "io.github.nslib-org" %% "stdlib-json" % "0.1.0"
 ```scala
 import nslib._
 
-val json = JSON.parse("""{"name":"Alice","age":30}""")
+val json = Json.parse("""{"name":"Alice","age":30}""")
 json("name").asString   // "Alice"
 json("age").asInt       // 30
 ```
@@ -22,12 +22,12 @@ json("age").asInt       // 30
 ### Parsing
 
 ```scala
-JSON.parse(text: String): JsonValue
+Json.parse(text: String): JsonValue
 ```
 Parse a JSON string.  Throws `JsonParseException` on invalid input.
 
 ```scala
-JSON.tryParse(text: String): Option[JsonValue]
+Json.tryParse(text: String): Option[JsonValue]
 ```
 Parse without throwing — returns `None` on failure.
 
@@ -50,20 +50,20 @@ Parse without throwing — returns `None` on failure.
 ### Building
 
 ```scala
-JSON.obj("key" -> value, ...)   // JsonValue (object)
-JSON.arr(v1, v2, ...)           // JsonValue (array)
-JSON.str("hello")               // JsonValue (string)
-JSON.num(42)                    // JsonValue (number)
-JSON.bool(true)                 // JsonValue (boolean)
-JSON.`null`                     // JsonValue (null)
-JSON.from(anyScalaValue)        // convert Scala → JsonValue
+Json.obj("key" -> value, ...)   // JsonValue (object)
+Json.arr(v1, v2, ...)           // JsonValue (array)
+Json.str("hello")               // JsonValue (string)
+Json.num(42)                    // JsonValue (number)
+Json.bool(true)                 // JsonValue (boolean)
+Json.`null`                     // JsonValue (null)
+Json.from(anyScalaValue)        // convert Scala → JsonValue
 ```
 
 ### Serialising
 
 ```scala
-JSON.stringify(v)               // compact JSON string
-JSON.stringify(v, indent = 2)   // pretty-printed JSON string
+Json.stringify(v)               // compact JSON string
+Json.stringify(v, indent = 2)   // pretty-printed JSON string
 v.stringify                     // shorthand
 v.stringify(indent = 4)
 ```
@@ -71,7 +71,7 @@ v.stringify(indent = 4)
 ### Pattern matching
 
 ```scala
-import JSON._
+import Json._
 value match {
   case Obj(fields) => /* Map[String, JsonValue] */
   case Arr(items)  => /* List[JsonValue] */

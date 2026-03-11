@@ -13,8 +13,8 @@ package nslib
   * }}}
   *
   * Available namespaces:
-  *   - [[JSON]]    — parse, build, serialise JSON
+  *   - [[Json]]    — parse, build, serialise Json
   *   - [[IO]]      — read and write files
-  *   - [[HTTP]]    — make HTTP requests
+  *   - [[Http]]    — make Http requests
   */
 object All
