@@ -38,7 +38,11 @@ lazy val commonSettings = Seq(
     if (scalaVersion.value.startsWith("3."))
       Seq("-Wunused:all")
     else
-      Seq("-Xlint:_,-missing-interpolator", "-Wunused:imports,privates,locals,implicits")
+      Seq(
+        "-Xsource:3",
+        "-Xlint:_,-missing-interpolator",
+        "-Wunused:imports,privates,locals,implicits"
+      )
   },
   libraryDependencies += "org.scalameta" %%% "munit" % Versions.munit % Test,
   testFrameworks += new TestFramework("munit.Framework")
