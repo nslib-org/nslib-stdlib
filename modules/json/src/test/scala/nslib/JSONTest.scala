@@ -230,7 +230,7 @@ class JSONTest extends FunSuite {
 
   test("pattern matching with Json extractors") {
     val v = Json.parse("""{"ok":true}""")
-    import Json._
+    import Json.*
     v match {
       case Obj(fields) => assert(fields.contains("ok"))
       case _           => fail("expected object")
