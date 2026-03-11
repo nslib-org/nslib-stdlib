@@ -1,5 +1,5 @@
 object Versions {
-  val scala213     = "2.13.16"
+  val scala213     = "2.13.17"
   val scala3Lts    = "3.3.7"
   val scala3Latest = "3.5.2" // update to latest non-LTS Scala 3 as needed
 

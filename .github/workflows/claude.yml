@@ -25,9 +25,9 @@ jobs:
   claude-mention:
     name: Claude (@claude mention)
     if: |
-      (github.event_name == 'issue_comment'             && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'issue_comment'              && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
-      (github.event_name == 'pull_request_review'       && contains(github.event.review.body,   '@claude')) ||
+      (github.event_name == 'pull_request_review'        && contains(github.event.review.body,   '@claude')) ||
       (github.event_name == 'issues' && github.event.action == 'assigned' && contains(github.event.issue.body, '@claude'))
     runs-on: ubuntu-latest
     steps:
@@ -40,14 +40,11 @@ jobs:
           java-version: "21"
           cache: sbt
       - uses: sbt/setup-sbt@v1
-      - uses: anthropics/claude-code-action@beta
+      - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          additional_context: |
-            Read AGENTS.md before making any changes.
-            Verify changes with: sbt compile
-            Run tests with: sbt jsonJVM/test ioJVM/test httpJVM/test
-            Follow all conventions in AGENTS.md.
+          claude_args: |
+            --append-system-prompt "Read AGENTS.md before making any changes. Verify with: sbt compile. Run tests with: sbt jsonJVM/test ioJVM/test httpJVM/test. Follow all conventions in AGENTS.md."
 
   # ── Auto-triage new issues ────────────────────────────────────────────────
   claude-triage:
@@ -64,16 +61,16 @@ jobs:
           java-version: "21"
           cache: sbt
       - uses: sbt/setup-sbt@v1
-      - uses: anthropics/claude-code-action@beta
+      - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          direct_prompt: |
+          prompt: |
             A new issue was just opened. Please triage it:
             1. Read AGENTS.md — especially "Issue triage rules" and "Core philosophy".
             2. Apply the appropriate label(s): bug, enhancement, documentation, platform, good first issue, breaking.
-            3. Post a brief comment: acknowledge the report, confirm whether it's in scope, and suggest next steps.
+            3. Post a brief comment: acknowledge the report, confirm whether it is in scope, and suggest next steps.
             4. If the feature request violates the "no FP jargon / no effect systems" rule or is out of scope,
-               politely close with an explanation referencing AGENTS.md.
+               politely close it with an explanation referencing AGENTS.md.
 
   # ── Auto-review new PRs ───────────────────────────────────────────────────
   claude-review:
@@ -90,16 +87,16 @@ jobs:
           java-version: "21"
           cache: sbt
       - uses: sbt/setup-sbt@v1
-      - uses: anthropics/claude-code-action@beta
+      - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          direct_prompt: |
+          prompt: |
             A new pull request was just opened. Please review it:
             1. Read AGENTS.md for project conventions.
             2. Check the diff for: correctness, Scaladoc on all public methods, tests for new behaviour,
-               scalafmt compliance, and adherence to the "Simple things must be extremely simple" philosophy.
+               scalafmt compliance, and the "Simple things must be extremely simple" philosophy.
             3. Verify it compiles: sbt compile
-            4. Post a review comment summarising findings (do NOT approve or request-changes — comment only).
+            4. Post a review comment summarising findings. Do NOT approve or request-changes — comment only.
 
   # ── Weekly dependency / housekeeping ─────────────────────────────────────
   claude-maintenance:
@@ -116,16 +113,16 @@ jobs:
           java-version: "21"
           cache: sbt
       - uses: sbt/setup-sbt@v1
-      - uses: anthropics/claude-code-action@beta
+      - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          direct_prompt: |
+          prompt: |
             Perform weekly maintenance on this Scala library:
             1. Read AGENTS.md for conventions.
             2. Check project/Versions.scala — look up the latest stable releases of:
                munit, sbt-scalajs, sbt-scala-native, and the Scala cross-compilation targets.
                Also check project/plugins.sbt for outdated plugin versions.
             3. If any dependency is outdated, create a single PR that bumps all of them,
-               with a clear title like "chore: bump dependencies (weekly)".
-               Verify the build still compiles after bumping: sbt compile
+               with title "chore: bump dependencies (weekly)".
+               Verify the build still compiles: sbt compile
             4. If everything is up to date, do nothing.
